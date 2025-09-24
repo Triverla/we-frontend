@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline - Woothomes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #0F172A;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(30, 58, 138, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(30, 58, 138, 0.15) 0%, transparent 50%);
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 600px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 50px;
+            border-radius: 24px;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.2),
+                0 0 0 1px rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            position: relative;
+            z-index: 2;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .icon-wrapper {
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 40px;
+            position: relative;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .icon {
+            width: 100%;
+            height: 100%;
+            color: #60A5FA;
+            filter: drop-shadow(0 0 20px rgba(96, 165, 250, 0.3));
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #60A5FA 0%, #93C5FD 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+
+        p {
+            color: #94A3B8;
+            margin-bottom: 40px;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+            color: white;
+            padding: 16px 32px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
+        }
+
+        .button:active {
+            transform: translateY(0);
+        }
+
+        .status {
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: #64748B;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #EF4444;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.5);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 40px 20px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .icon-wrapper {
+                width: 120px;
+                height: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+    <div class="container">
+        <div class="icon-wrapper">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 8V12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 16H12.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <h1>Connection Lost</h1>
+        <p>We're having trouble connecting to the internet. This might be due to a temporary network issue or your device being offline.</p>
+        <a href="/" class="button">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 12V9C4 5.13401 7.13401 2 11 2H13C16.866 2 20 5.13401 20 9V12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M2 12H22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M12 12V22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            Retry Connection
+        </a>
+        <div class="status">
+            <div class="status-dot"></div>
+            <span>Offline Mode</span>
+        </div>
+    </div>
+
+    <script>
+        // Show last cached time
+        if ('caches' in window) {
+            caches.match('/').then(response => {
+                if (response) {
+                    const date = new Date(response.headers.get('date'));
+                    document.querySelector('.status span').textContent = 
+                        `Last synced: ${date.toLocaleString()}`;
+                }
+            });
+        }
+
+        // Check connection status periodically
+        window.addEventListener('online', () => {
+            window.location.reload();
+        });
+
+        // Add connection status indicator
+        const updateConnectionStatus = () => {
+            const statusDot = document.querySelector('.status-dot');
+            const statusText = document.querySelector('.status span');
+            
+            if (navigator.onLine) {
+                statusDot.style.background = '#22C55E';
+                statusText.textContent = 'Back Online';
+                setTimeout(() => window.location.reload(), 1000);
+            } else {
+                statusDot.style.background = '#EF4444';
+                statusText.textContent = 'Offline Mode';
+            }
+        };
+
+        window.addEventListener('online', updateConnectionStatus);
+        window.addEventListener('offline', updateConnectionStatus);
+        updateConnectionStatus();
+    </script>
+</body>
+</html> 

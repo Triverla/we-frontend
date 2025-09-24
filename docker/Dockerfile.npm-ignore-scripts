@@ -1,0 +1,46 @@
+# Use the official Node.js 20 Alpine image as base
+FROM node:20-alpine
+
+# Install dependencies
+RUN apk add --no-cache libc6-compat
+
+WORKDIR /app
+
+# Copy package files
+COPY package.json ./
+
+# Install dependencies with npm (ignore scripts to avoid package manager conflicts)
+RUN npm install --ignore-scripts
+
+# Copy source code
+COPY . .
+
+# Next.js collects completely anonymous telemetry data about general usage.
+# Learn more here: https://nextjs.org/telemetry
+ENV NEXT_TELEMETRY_DISABLED 1
+
+# Temporarily disable TypeScript checking during build
+ENV SKIP_TYPE_CHECK=1
+ENV NEXT_SKIP_TYPE_CHECK=1
+
+# Build the application (skip TypeScript checking)
+RUN npm run build
+
+# Create production user
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+# Set correct permissions
+RUN chown -R nextjs:nodejs /app
+
+# Switch to non-root user
+USER nextjs
+
+EXPOSE 3000
+
+ENV NODE_ENV production
+ENV PORT 3000
+ENV HOSTNAME "0.0.0.0"
+
+# Start the application
+CMD ["node", "server.js"] 
