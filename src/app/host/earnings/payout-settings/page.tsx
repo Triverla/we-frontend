@@ -151,6 +151,7 @@ const AddPaymentMethodForm = ({
     email: '',
     phone_number: '',
     provider: '',
+    branch_code: '',
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -185,36 +186,50 @@ const AddPaymentMethodForm = ({
     
     if (!validateForm()) return;
     
-    let account_details: Record<string, unknown> = {};
+    let details: PaymentMethodRequest['details'] = {
+      currency: 'NGN',
+      country: 'NG',
+    };
     
     if (methodType === 'bank_account') {
-      account_details = {
+      details = {
+        account_holder_name: formData.account_name,
         account_number: formData.account_number,
         bank_name: formData.bank_name,
         bank_code: formData.bank_code,
-        account_name: formData.account_name,
-        routing_number: formData.routing_number,
+        branch_code: formData.branch_code,
+        currency: 'NGN',
+        country: 'NG',
       };
     } else if (methodType === 'paypal') {
-      account_details = {
+      details = {
         email: formData.email,
+        currency: 'NGN',
+        country: 'NG',
       };
     } else if (methodType === 'stripe') {
-      account_details = {
+      details = {
         account_number: formData.account_number,
         routing_number: formData.routing_number,
+        currency: 'NGN',
+        country: 'NG',
       };
     } else if (methodType === 'mobile_money') {
-      account_details = {
+      details = {
         phone_number: formData.phone_number,
         provider: formData.provider,
+        currency: 'NGN',
+        country: 'NG',
       };
     }
 
     onSave({
       type: methodType as 'bank_account' | 'paypal' | 'stripe' | 'mobile_money',
       name: formData.name,
-      account_details,
+      currency: 'NGN',
+      country: 'NG',
+      is_default: false,
+      details,
     });
   };
 
@@ -345,6 +360,18 @@ const AddPaymentMethodForm = ({
                     value={formData.bank_code}
                     onChange={(e) => setFormData({ ...formData, bank_code: e.target.value })}
                     placeholder="e.g., 011"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Branch Code (Optional)
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.branch_code}
+                    onChange={(e) => setFormData({ ...formData, branch_code: e.target.value })}
+                    placeholder="e.g., 001"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>

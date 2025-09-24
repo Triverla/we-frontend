@@ -27,8 +27,22 @@ export interface PaymentMethod {
 export interface PaymentMethodRequest {
   type: 'bank_account' | 'paypal' | 'stripe' | 'mobile_money';
   name: string;
-  account_details: Record<string, unknown>;
+  currency: string;
+  country: string;
   is_default?: boolean;
+  details: {
+    account_holder_name?: string;
+    account_number?: string;
+    bank_name?: string;
+    bank_code?: string;
+    branch_code?: string;
+    email?: string;
+    phone_number?: string;
+    provider?: string;
+    routing_number?: string;
+    currency: string;
+    country: string;
+  };
 }
 
 // Wallet interfaces based on common wallet API patterns
