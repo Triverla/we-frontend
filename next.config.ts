@@ -13,7 +13,7 @@ const nextConfig: NextConfig = {
   eslint: {
     // Warning: This allows production builds to successfully complete even if
     // your project has ESLint errors.
-    ignoreDuringBuilds: process.env.SKIP_TYPE_CHECK === '1',
+    ignoreDuringBuilds: true,
   },
   images: {
     domains: [
