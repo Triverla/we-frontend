@@ -5,7 +5,7 @@ import { axiosBase } from "@woothomes/lib";
 export interface PaymentMethod {
   id: string;
   user_id: string;
-  type: 'bank_transfer' | 'paypal' | 'stripe' | 'mobile_money';
+  type: 'bank_account' | 'paypal' | 'stripe' | 'mobile_money';
   name: string;
   account_details: {
     account_number?: string;
@@ -25,7 +25,7 @@ export interface PaymentMethod {
 }
 
 export interface PaymentMethodRequest {
-  type: 'bank_transfer' | 'paypal' | 'stripe' | 'mobile_money';
+  type: 'bank_account' | 'paypal' | 'stripe' | 'mobile_money';
   name: string;
   account_details: Record<string, unknown>;
   is_default?: boolean;

@@ -45,7 +45,7 @@ const PaymentMethodCard = ({
 }) => {
   const getIcon = () => {
     switch (method.type) {
-      case 'bank_transfer':
+      case 'bank_account':
         return <Building2 className="h-6 w-6 text-blue-600" />;
       case 'paypal':
         return <CreditCard className="h-6 w-6 text-blue-600" />;
@@ -61,7 +61,7 @@ const PaymentMethodCard = ({
   const getDisplayText = () => {
     if (method.type === 'paypal') {
       return method.account_details.email || 'PayPal Account';
-    } else if (method.type === 'bank_transfer') {
+    } else if (method.type === 'bank_account') {
       const bankName = method.account_details.bank_name || 'Bank';
       const lastFour = method.account_details.account_number?.slice(-4) || '0000';
       return `${bankName} - ****${lastFour}`;
@@ -140,7 +140,7 @@ const AddPaymentMethodForm = ({
   onSave: (method: PaymentMethodRequest) => void;
   isLoading?: boolean;
 }) => {
-  const [methodType, setMethodType] = useState<'bank_transfer' | 'paypal' | 'stripe' | 'mobile_money'>('bank_transfer');
+  const [methodType, setMethodType] = useState<'bank_account' | 'paypal' | 'stripe' | 'mobile_money'>('bank_account');
   const [formData, setFormData] = useState({
     name: '',
     account_number: '',
@@ -161,7 +161,7 @@ const AddPaymentMethodForm = ({
       newErrors.name = 'Name is required';
     }
 
-    if (methodType === 'bank_transfer') {
+    if (methodType === 'bank_account') {
       if (!formData.account_number.trim()) newErrors.account_number = 'Account number is required';
       if (!formData.bank_name.trim()) newErrors.bank_name = 'Bank name is required';
       if (!formData.account_name.trim()) newErrors.account_name = 'Account name is required';
@@ -187,7 +187,7 @@ const AddPaymentMethodForm = ({
     
     let account_details: Record<string, unknown> = {};
     
-    if (methodType === 'bank_transfer') {
+    if (methodType === 'bank_account') {
       account_details = {
         account_number: formData.account_number,
         bank_name: formData.bank_name,
@@ -212,7 +212,7 @@ const AddPaymentMethodForm = ({
     }
 
     onSave({
-      type: methodType,
+      type: methodType as 'bank_account' | 'paypal' | 'stripe' | 'mobile_money',
       name: formData.name,
       account_details,
     });
@@ -242,7 +242,7 @@ const AddPaymentMethodForm = ({
               </label>
               <div className="grid grid-cols-2 gap-2">
                 {[
-                  { key: 'bank_transfer' as const, label: 'Bank Transfer', icon: Building2 },
+                  { key: 'bank_account' as const, label: 'Bank Account', icon: Building2 },
                   { key: 'paypal' as const, label: 'PayPal', icon: CreditCard },
                   { key: 'stripe' as const, label: 'Stripe', icon: CreditCard },
                   { key: 'mobile_money' as const, label: 'Mobile Money', icon: CreditCard },
@@ -286,7 +286,7 @@ const AddPaymentMethodForm = ({
             </div>
 
             {/* Conditional Fields Based on Method Type */}
-            {methodType === 'bank_transfer' && (
+            {methodType === 'bank_account' && (
               <>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
