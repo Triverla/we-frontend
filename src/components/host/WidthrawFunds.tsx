@@ -73,9 +73,23 @@ export const WithdrawFundsSection = ({
         return;
       }
 
+      // Map payment method type to withdrawal method type
+      const getWithdrawalMethod = (paymentType: string) => {
+        switch (paymentType) {
+          case 'bank_account':
+            return 'bank_transfer';
+          case 'paypal':
+          case 'stripe':
+          case 'mobile_money':
+            return paymentType;
+          default:
+            return 'bank_transfer';
+        }
+      };
+
       await withdrawalMutation.mutateAsync({
         amount: parseFloat(withdrawalData.amount),
-        withdrawal_method: selectedPaymentMethod.type,
+        withdrawal_method: getWithdrawalMethod(selectedPaymentMethod.type),
         payment_method_id: withdrawalData.paymentMethodId,
         pin: pinString,
         description: `Withdrawal to ${selectedPaymentMethod.name}`,
@@ -94,7 +108,7 @@ export const WithdrawFundsSection = ({
   const getPaymentMethodLabel = (method: any) => {
     if (method.type === 'paypal') {
       return `PayPal - ${method.account_details.email}`;
-    } else if (method.type === 'bank_transfer') {
+    } else if (method.type === 'bank_account') {
       const bankName = method.account_details.bank_name || 'Bank';
       const lastFour = method.account_details.account_number?.slice(-4) || '0000';
       return `${bankName} - ****${lastFour}`;
